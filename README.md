@@ -1,5 +1,95 @@
 <img src="https://github.com/user-attachments/assets/32f6e00b-b053-4be4-8618-bfb740c38932" width="350" title="oneplus8t"/>
 
+**Last builds:** https://download.lineageos.org/devices/kebab/builds
+
+### Unlocking the bootloader
+
+Enable OEM unlock in the Developer options under device Settings, if present.
+Connect the device to your PC via USB.
+```
+adb -d reboot bootloader
+fastboot devices
+fastboot oem unlock
+```
+If the device doesn’t automatically reboot, reboot it. It should now be unlocked.
+Since the device resets completely, you will need to re-enable USB debugging to continue.
+
+---
+### Flashing additional partitions
+
+1.  Download the following files from  [here](https://download.lineageos.org/devices/kebab).
+    -   dtbo.img
+    -   vbmeta.img
+2.  Power off the device, and boot it into bootloader mode:
+    -   With the device powered off, hold  **Volume Up  +  Volume Down  +  Power**.
+3.  Flash the downloaded image files to your device by typing:
+	```
+	fastboot flash dtbo dtbo.img
+	fastboot flash vbmeta vbmeta.img
+	```
+
+---
+### Installing Lineage Recovery
+
+Download [Lineage Recovery](https://download.lineageos.org/devices/kebab). Simply download the latest recovery file, named `recovery.img`
+1.  Flash recovery onto your device:
+	```
+	fastboot flash recovery recovery.img
+	```
+    
+2.  Now reboot into recovery to verify the installation.
+    -   Use the menu to navigate to and to select the  `Recovery`  option.
+
+---
+### Ensuring all firmware partitions are consistent
+
+1.  Download the  `copy-partitions-20220613-signed.zip`  file from  [here](https://mirrorbits.lineageos.org/tools/copy-partitions-20220613-signed.zip).
+2.  Sideload the  `copy-partitions-20220613-signed.zip`  package:
+    -   On the device, select “**Apply Update**”, then “**Apply from ADB**” to begin sideload.
+    -   On the host machine, sideload the package using:
+	```
+	adb -d sideload copy-partitions-20220613-signed.zip
+	```
+3.  Now reboot to recovery by tapping “**Advanced**”, then “**Reboot to recovery**”.
+
+---
+### Installing LineageOS ROM from recovery
+
+1.  Download the  [LineageOS zip file](https://download.lineageos.org/devices/kebab)  that you would like to install or  [build](https://wiki.lineageos.org/devices/kebab/build)  the package yourself.
+2.  If you are not in recovery, reboot into recovery:
+    -   With the device powered off, hold  Volume Down  +  Power.
+3.  Now tap  **Factory Reset**, then  **Format data / factory reset**  and continue with the formatting process. This will remove encryption and delete all files stored in the internal storage, as well as format your cache partition (if you have one).
+4.  Return to the main menu.
+5.  Sideload the LineageOS  `.zip`  package but  **do not reboot**  before you read/followed the rest of the instructions!
+    -   On the device, select “**Apply Update**”, then “**Apply from ADB**” to begin sideload.
+    -   On the host machine, sideload the package using:
+ 	```
+	adb -d sideload lineage-21.0-XXXXX-nightly-kebab-signed.zip
+	```
+
+<div style="padding: 15px; border: 1px solid transparent; border-color: transparent; margin-bottom: 20px; border-radius: 4px; color: #31708f; background-color: #d9edf7; border-color: #bce8f1;">Normally, adb will report `Total xfer: 1.00x`, but in some cases, even if the process succeeds the output will stop at 47% and report `adb: failed to read command: Success`. In some cases it will report `adb: failed to read command: No error` or `adb: failed to read command: Undefined error: 0` which is also fine."</div>
+
+---
+### Installing Add-Ons (Google Apps, Magisk...)
+
+1.  Click  “**Apply Update**”, then “**Apply from ADB**” to begin sideload.
+    -   On the host machine, sideload the package using:
+ 	```
+	adb -d sideload filename.zip
+	```
+    When presented with a screen that says  `Signature verification failed`, click  `Yes`. It is expected as add-ons aren’t signed with LineageOS’s official key!
+
+---
+
+Once you have installed everything successfully, you can now reboot your device into the OS for the first time!
+
+-   Click the back arrow in the top left of the screen, then “**Reboot system now**”.
+
+
+<div style="padding: 15px; border: 1px solid transparent; border-color: transparent; margin-bottom: 20px; border-radius: 4px; color: #31708f; background-color: #d9edf7; border-color: #bce8f1;">**Note:** The first boot usually takes no longer than 15 minutes, depending on the device.</div>
+
+---
+**Specs**
 CPU: Qualcomm® Snapdragon™ 865  
 5G Chipset: X55  
 GPU: Adreno 650  
